@@ -8,14 +8,31 @@ class App extends Component {
 
     state = {
         newMessage : '',
-        messages: {},
+        incompleteOrders: [],
+        completeOrders: [],
         usernameInput: '',
         username: null
     };
 
     async componentWillMount() {
-        this.messageRef.on('value', (value) => {
-            this.setState({messages: value.val()});
+      this.messageRef.orderByChild('order_restaurant')
+          .equalTo("83h4h2u3").on('value', (value) => {
+
+            // SEPARATE THE COMPLETE AND INCOMPLETE ORDERS
+            var orders = Object.values(value.val())
+            console.log(orders)
+            var incomplete_orders = []
+            var complete_orders = []
+            for(var i = 0; i < orders.length; i++) {
+              var order = orders[i]
+              var order_state = order["order_state"].length - 1
+              if(order_state == 0) {
+                incomplete_orders.push(order)
+              } else {
+                complete_orders.push(order)
+              }
+            }
+            this.setState({incompleteOrders: incomplete_orders, completeOrders: complete_orders});
         });
 
     }
@@ -29,38 +46,18 @@ class App extends Component {
         this.setState({[event.target.name]: event.target.value});
     }
 
-    renderUsernameForm() {
-        return (
-            <div style={usernameFormStyle}>
-                <img src={causeCodeLogoUrl} />
-                <h1>Hey there.</h1>
-                <h3>What's your name?</h3>
-                <input
-                        style={usernameTextInputStyle}
-                        type="text"
-                        name="usernameInput"
-                        onChange={this.handleInput}
-                        onKeyPress={(event) => event.key === 'Enter'
-                                && this.setState({username: this.state.usernameInput})}
-                />
-                <br/><br/>
-                <button style={buttonStyle} onClick={() => this.setState({username: this.state.usernameInput})}>
-                    Start
-                </button>
-            </div>
-        );
-    }
+    //
 
     renderMessageArea = () => {
-        const {messages} = this.state;
+        const {completeOrders} = this.state;
 
         return (
             <div style={messageAreaStyle}>
                 {
-                    messages && Object.keys(messages).map(key => {
+                    completeOrders && Object.keys(completeOrders).map(key => {
                         return (
                             <div key={key}>
-                                <ChatBubble message={messages[key]}/>
+                                <ChatBubble message={completeOrders[key]}/>
                             </div>
                         )
                     })
@@ -81,35 +78,10 @@ class App extends Component {
         this.setState({newMessage: ''});
     }
 
-    renderInputStrip() {
-        return (
-            <div style={inputStripStyle}>
-                <input
-                        style={{...usernameTextInputStyle, width: '70%'}}
-                        type="text"
-                        name="newMessage"
-                        onChange={this.handleInput}
-                        value={this.state.newMessage}
-                        onKeyPress={(event) => {event.key === 'Enter' && this.sendMessage()}}
-                />
-                <button
-                        style={{...buttonStyle, width: '15%'}}
-                        onClick={this.sendMessage}
-                >
-                    Send
-                </button>
-            </div>
-        );
-    }
-
     render() {
-        const {username} = this.state;
-
         return (
             <div style={containerStyle}>
-                {!username && this.renderUsernameForm()}
                 {this.renderMessageArea()}
-                {this.renderInputStrip()}
             </div>
         );
     }
@@ -129,7 +101,7 @@ const messageAreaStyle = {
     backgroundColor: '#efefef',
     padding: '20px',
     overflowY: 'auto',
-    marginBottom: '100px'
+    marginBottom: '200px'
 };
 
 const usernameFormStyle = {

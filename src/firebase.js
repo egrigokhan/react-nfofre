@@ -1,3 +1,5 @@
+import { initializeApp } from 'firebase/app';
+
 export const initializeReactApp = () => {
     const config = {
         apiKey: "AIzaSyB1-l7M0hUHpMAsmSb0O1lH9Xe1PzLXogk",
@@ -9,5 +11,5 @@ export const initializeReactApp = () => {
 	    appId: "1:472911257841:web:6ce1359e129777e6570950"
     };
 
-    firebase.initializeApp(firebaseConfig);
+    initializeApp(config);
 }

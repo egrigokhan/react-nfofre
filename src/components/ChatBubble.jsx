@@ -7,11 +7,13 @@ export class ChatBubble extends React.Component {
         return (
             <span style={chatBubbleStyle}>
                 <div style={fromStyle}>
-                    <b>{message.from}</b> says:
+                    <b>{message.order_user}</b> says:
                 </div>
                 <div style={messageStyle}>
-                    {message.message}
+                    {message.order_items}
                 </div>
+                <button>Onayla</button>
+                <button>Hazır</button>
             </span>
         );
     }
@@ -19,9 +21,9 @@ export class ChatBubble extends React.Component {
 
 const chatBubbleStyle = {
     border: '2px #e28e06 solid',
-    borderRadius: '4px',
+    borderRadius: '10px',
     display: 'inline-block',
-    backgroundColor: '#f4b042',
+    backgroundColor: 'white',
     position: 'relative',
     marginBottom: '10px',
     padding: '20px'
@@ -29,7 +31,7 @@ const chatBubbleStyle = {
 
 const messageStyle = {
     fontSize: '20px',
-    color: 'white'
+    color: 'black'
 };
 
 const fromStyle = {
