@@ -23,16 +23,19 @@ export class OrderDetail extends React.Component {
 
         var order_details = []
 
-        for(var i = 0; i < order.order_items.length; i++) {
-          order_details.push(<ItemDetail itemID={order.order_items[i]}/>)
-          if(order.order_specifications[i]) {
-            for(var j = 0; j < order.order_specifications[i].length; j++) {
-                        order_details.push(order.order_specifications[i][j] + "<br>")
+        var order_description_items = order.order_description["order_description_items"]
+        var order_description_specifications = order.order_description["order_description_specifications"]
+
+        for(var i = 0; i < order_description_items.length; i++) {
+          order_details.push(<ItemDetail itemID={order_description_items[i]}/>)
+          if(order_description_specifications[i]) {
+            for(var j = 0; j < order_description_specifications[i].length; j++) {
+                        order_details.push(<SpecificationDetail specificationID={order_description_specifications[i][j]}/>)
             }
           }
         }
         return (
-            <div>
+            <div style={messageStyle}>
                 {
                   order_details
                 }
@@ -45,23 +48,32 @@ export class ItemDetail extends React.Component {
     render() {
         const {itemID} = this.props;
 
-        Firebase.database().ref("/items").once('value', (value) => {
-            
-            var item = value.val()
-            
-            return (
+        return (
               <div>
                   {
-                    item.item_name
+                    itemID
                   }
               </div>
             );
-        });
+    }
+}
+
+export class SpecificationDetail extends React.Component {
+    render() {
+        const {specificationID} = this.props;
+
+        return (
+              <div style={specificationDetailStyle}>
+                  {
+                    specificationID
+                  }
+              </div>
+            );
     }
 }
 
 const chatBubbleStyle = {
-    border: '2px #e28e06 solid',
+    border: '2px purple solid',
     borderRadius: '10px',
     display: 'inline-block',
     backgroundColor: 'white',
@@ -71,8 +83,13 @@ const chatBubbleStyle = {
 };
 
 const messageStyle = {
-    fontSize: '20px',
+    fontSize: '12px',
+    fontWeight: 'bolder',
     color: 'black'
+};
+
+const specificationDetailStyle = {
+    marginLeft: '20px'
 };
 
 const fromStyle = {
