@@ -73,6 +73,7 @@ export class SpecificationDetail extends React.Component {
 }
 
 const chatBubbleStyle = {
+    minWidth: "40%",
     border: '2px purple solid',
     borderRadius: '10px',
     display: 'inline-block',
