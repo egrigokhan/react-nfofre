@@ -10,13 +10,12 @@ class App extends Component {
         newMessage : '',
         incompleteOrders: [],
         completeOrders: [],
-        usernameInput: '',
-        username: null
+        restaurantID: '83h4h2u3',
     };
 
     async componentWillMount() {
       this.messageRef.orderByChild('order_restaurant')
-          .equalTo("83h4h2u3").on('value', (value) => {
+          .equalTo(this.state.restaurantID).on('value', (value) => {
 
             // SEPARATE THE COMPLETE AND INCOMPLETE ORDERS
             var orders = Object.values(value.val())
@@ -48,16 +47,27 @@ class App extends Component {
 
     //
 
-    renderMessageArea = () => {
+    renderMessageArea = (orderType) => {
+        const {incompleteOrders} = this.state
         const {completeOrders} = this.state;
+        
+        console.log(orderType)
+
+        var orders_ = []
+
+        if(orderType == "complete_orders") {
+          orders_ = this.state.completeOrders
+        } else {
+          orders_ = this.state.incompleteOrders
+        }
 
         return (
             <div style={messageAreaStyle}>
                 {
-                    completeOrders && Object.keys(completeOrders).map(key => {
+                    orders_ && Object.keys(orders_).map(key => {
                         return (
                             <div key={key}>
-                                <ChatBubble message={completeOrders[key]}/>
+                                <ChatBubble message={orders_[key]}/>
                             </div>
                         )
                     })
@@ -70,18 +80,10 @@ class App extends Component {
         );
     }
 
-    sendMessage = () => {
-        const {username, newMessage} = this.state;
-
-        this.messageRef.push({from: username, message: newMessage});
-        this.anchor.scrollIntoView({behavior: 'smooth'});
-        this.setState({newMessage: ''});
-    }
-
     render() {
         return (
             <div style={containerStyle}>
-                {this.renderMessageArea()}
+                {this.renderMessageArea("complete_orders")}
             </div>
         );
     }
