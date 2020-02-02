@@ -1,4 +1,5 @@
 import React from 'react';
+import Firebase from 'firebase';
 
 export class ChatBubble extends React.Component {
     render() {
@@ -23,22 +24,13 @@ export class OrderDetail extends React.Component {
         var order_details = []
 
         for(var i = 0; i < order.order_items.length; i++) {
-          order_details.push(order.order_items[i] + "<br>")
-          console.log("PIN...")
-          console.log(i)
-          console.log(order.order_items[i])
-          console.log(order.order_specifications[i])
+          order_details.push(<ItemDetail itemID={order.order_items[i]}/>)
           if(order.order_specifications[i]) {
             for(var j = 0; j < order.order_specifications[i].length; j++) {
-                        console.log("S")
                         order_details.push(order.order_specifications[i][j] + "<br>")
             }
           }
-          
-          console.log("PIN... 2")
         }
-        console.log(order_details)
-        console.log("PIN... 3")
         return (
             <div>
                 {
@@ -46,6 +38,25 @@ export class OrderDetail extends React.Component {
                 }
             </div>
         );
+    }
+}
+
+export class ItemDetail extends React.Component {
+    render() {
+        const {itemID} = this.props;
+
+        Firebase.database().ref("/items").once('value', (value) => {
+            
+            var item = value.val()
+            
+            return (
+              <div>
+                  {
+                    item.item_name
+                  }
+              </div>
+            );
+        });
     }
 }
 
