@@ -83,6 +83,7 @@ class App extends Component {
     render() {
         return (
             <div style={containerStyle}>
+                {this.renderMessageArea("incomplete_orders")}
                 {this.renderMessageArea("complete_orders")}
             </div>
         );
@@ -99,7 +100,7 @@ const containerStyle = {
 
 const messageAreaStyle = {
     width: '100%',
-    height: '100%',
+    height: '50%',
     backgroundColor: '#efefef',
     padding: '20px',
     overflowY: 'auto',

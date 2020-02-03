@@ -2,6 +2,33 @@ import React from 'react';
 import Firebase from 'firebase';
 
 export class ChatBubble extends React.Component {
+
+        updateOrderState = (order, e) => {
+
+          var date = (new Date().getTime()/1000);
+          date = parseInt(date, 10)
+
+          var order_state = order.order_state
+
+          order_state.push(date)
+
+          Firebase.database().ref('orders/' + order.order_database_id + "/order_state").set(
+            order_state
+          );
+        }
+
+        orderConfirmed = (message, e) => {
+          console.log("ORDER CONFIRMED");
+          console.log(message.order_database_id)
+          this.updateOrderState(message, e)
+        }
+
+        orderReady = (message, e) => {
+          console.log("ORDER READY");
+          console.log(message.order_database_id)
+          this.updateOrderState(message, e)
+        }
+
     render() {
         const {message} = this.props;
 
@@ -10,8 +37,8 @@ export class ChatBubble extends React.Component {
                 <div>
                   <OrderDetail order={message}/>
                 </div>
-                <button>Onayla</button>
-                <button>Hazır</button>
+                <button onClick={(e) => this.orderConfirmed(message, e)}>Onayla</button>
+                <button onClick={(e) => this.orderReady(message, e)}>Hazır</button>
             </span>
         );
     }
