@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@firebase/app": "^0.5.3",
+    "@firebase/app": "0.5.3",
+    "bootstrap": "4.4.1",
     "firebase": "7.8.0",
+    "jquery": "3.4.1",
+    "popper.js": "1.16.1",
     "react": "16.9.0",
+    "react-bootstrap": "^0.33.1",
     "react-dom": "16.9.0"
   },
   "scripts": {

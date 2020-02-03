@@ -1,6 +1,8 @@
 import React from 'react';
 import Firebase from 'firebase';
 
+import Button from 'react-bootstrap/Button';
+
 export class ChatBubble extends React.Component {
 
         updateOrderState = (order, e) => {
@@ -37,8 +39,8 @@ export class ChatBubble extends React.Component {
                 <div>
                   <OrderDetail order={message}/>
                 </div>
-                <button onClick={(e) => this.orderConfirmed(message, e)}>Onayla</button>
-                <button onClick={(e) => this.orderReady(message, e)}>Hazır</button>
+                <Button onClick={(e) => this.orderConfirmed(message, e)}>Onayla</Button>
+                <Button onClick={(e) => this.orderReady(message, e)}>Hazır</Button>
             </span>
         );
     }
