@@ -10,7 +10,7 @@ class App extends Component {
         newMessage : '',
         incompleteOrders: [],
         completeOrders: [],
-        restaurantID: '83h4h2u3',
+        restaurantID: '23j4n2kj3',
     };
 
     async componentWillMount() {
@@ -83,8 +83,8 @@ class App extends Component {
     render() {
         return (
             <div style={containerStyle}>
-                {this.renderMessageArea("incomplete_orders")}
                 {this.renderMessageArea("complete_orders")}
+                {this.renderMessageArea("incomplete_orders")}
             </div>
         );
     }
